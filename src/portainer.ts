@@ -45,29 +45,17 @@ export class PortainerClient {
     }
 
     /**
-     * Retrieve the swarm ID from the Portainer Endpoint.
-     *
-     * @param endpoint {Number} - Portainer endpoint ID.
-     */
-    async getSwarmId(endpoint: number): Promise<number> {
-        const {data} = await this.client.get(`/endpoints/${endpoint}/docker/swarm`);
-
-        return data.ID;
-    }
-
-    /**
      * Retrieve all existing stacks from swarm.
      *
      * @param endpoint {Number} - Portainer endpoint ID.
      */
     async getStacks(endpoint: number): Promise<Stack[]> {
-        const swarmId = await this.getSwarmId(endpoint);
         const {data}: { data: PortainerStack[] } = await this.client.get(
             '/stacks',
             {
                 params: {
                     filters: JSON.stringify({
-                        SwarmId: swarmId
+                        Type: 2 //2 = compose stack
                     })
                 }
             });
@@ -84,19 +72,17 @@ export class PortainerClient {
      * @param payload {CreateStackPayload} - Payload for the stack to be created.
      */
     async createStack(payload: CreateStackPayload): Promise<Stack> {
-        const swarmId = await this.getSwarmId(payload.endpoint);
         const {data}: { data: PortainerStack } = await this.client.post(
             '/stacks',
             {
                 name: payload.name,
-                stackFileContent: payload.file,
-                swarmID: swarmId
+                stackFileContent: payload.file
             },
             {
                 params: {
                     endpointId: payload.endpoint,
                     method: 'string',
-                    type: 1
+                    type: 2
                 }
             });
 

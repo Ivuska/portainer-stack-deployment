@@ -1,6 +1,6 @@
 # Portainer Stack Deployment
 
-Github Action for creating/updating docker swarm stacks using the portainer API. The file can be a ".mustache" file to allow for workflow specific overrides (e.g. image).
+Github Action for creating/updating docker compose stacks using the portainer API. The file can be a ".mustache" file to allow for workflow specific overrides (e.g. image).
 
 ## Usage
 
@@ -14,7 +14,7 @@ jobs:
     - name: Clone Repository
 -     uses: actions/checkout@v2
     - name: Deploy Stack
-      uses: kgierke/portainer-stack-deployment@v1
+      uses: Ivuska/portainer-stack-deployment@v1
       with:
         portainer-url: "https://portainer.example.com"
         portainer-username: "admin"
