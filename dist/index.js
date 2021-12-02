@@ -4203,7 +4203,6 @@ function parseStackConfig() {
     const filePath = core.getInput('file', { required: true });
     let file = fs.readFileSync(filePath, 'utf-8');
     if (filePath.split('.').pop() === 'mustache') {
-        mustache_1.default.escape = JSON.stringify;
         file = mustache_1.default.render(file, JSON.parse(core.getInput('variables', { required: false })));
     }
     return {
